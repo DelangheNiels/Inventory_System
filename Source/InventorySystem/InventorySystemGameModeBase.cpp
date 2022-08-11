@@ -3,3 +3,8 @@
 
 #include "InventorySystemGameModeBase.h"
 
+AInventorySystemGameModeBase::AInventorySystemGameModeBase(const FObjectInitializer& objectInitializer)
+{
+
+}
+

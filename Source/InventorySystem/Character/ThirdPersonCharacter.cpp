@@ -2,10 +2,15 @@
 
 
 #include "ThirdPersonCharacter.h"
+#include "TPCController.h"
 
 #include "Camera/CameraComponent.h"
 
 #include "Components/InputComponent.h"
+
+#include "../Components/InventoryComponent.h"
+
+#include "../HUD/Inventory.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -31,6 +36,12 @@ AThirdPersonCharacter::AThirdPersonCharacter()
 	m_pCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	m_pCamera->SetupAttachment(m_pCameraBoom, USpringArmComponent::SocketName);//attach camera to the end of the boom
 	m_pCamera->bUsePawnControlRotation = false; // rotate with boom
+
+	//Inventory Component
+	m_pInventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
+	m_pInventoryComponent->SetCapacity(20);
+
+	m_Health = 100;
 }
 
 // Called when the game starts or when spawned
@@ -44,6 +55,8 @@ void AThirdPersonCharacter::BeginPlay()
 
 	//rotate camera boom to given start angle
 	AddControllerPitchInput(m_StartPitch);
+
+	m_pController = Cast<ATPCController>(Controller);
 }
 
 // Called every frame
@@ -57,6 +70,8 @@ void AThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction("OpenCloseInventory", EInputEvent::IE_Pressed, this, &AThirdPersonCharacter::OpenCloseInventory);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AThirdPersonCharacter::MoveForwardBackward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AThirdPersonCharacter::MoveLeftRight);
 
@@ -68,6 +83,24 @@ void AThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("TurnRate", this, &AThirdPersonCharacter::TurningUsingControllerAtRate);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AThirdPersonCharacter::LookUpUsingControllerAtRate);
 
+}
+
+float AThirdPersonCharacter::GetHealth() const
+{
+	return m_Health;
+}
+
+void AThirdPersonCharacter::AddHealth(float health)
+{
+	m_Health += health;
+	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("%f"), m_Health));
+}
+
+void AThirdPersonCharacter::SetInventory(UInventory* inventory)
+{
+	m_pInventory = inventory;
+	m_pInventory->SetInventoryComp(m_pInventoryComponent);
+	m_pInventory->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AThirdPersonCharacter::MoveForwardBackward(float value)
@@ -107,5 +140,27 @@ void AThirdPersonCharacter::TurningUsingControllerAtRate(float rate)
 void AThirdPersonCharacter::LookUpUsingControllerAtRate(float rate)
 {
 	AddControllerPitchInput(rate * m_BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AThirdPersonCharacter::OpenCloseInventory()
+{
+	if (m_pInventory)
+	{
+		if (m_pInventory->GetVisibility() == ESlateVisibility::Visible)
+		{
+			m_pInventory->SetVisibility(ESlateVisibility::Hidden);
+			m_pController->SetInputMode(FInputModeGameOnly());
+			m_pController->bShowMouseCursor = false;
+		}
+
+		else
+		{
+			m_pInventory->SetVisibility(ESlateVisibility::Visible);
+			m_pInventory->UpdateInventory();
+			m_pController->bShowMouseCursor = true;
+			m_pController->SetInputMode(FInputModeGameAndUI());
+			
+		}
+	}
 }
 

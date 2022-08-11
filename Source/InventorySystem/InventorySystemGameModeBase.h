@@ -13,5 +13,9 @@ UCLASS()
 class INVENTORYSYSTEM_API AInventorySystemGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	AInventorySystemGameModeBase(const FObjectInitializer& objectInitializer);
 	
 };

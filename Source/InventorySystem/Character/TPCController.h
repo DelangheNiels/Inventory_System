@@ -9,6 +9,10 @@
 /**
  * 
  */
+
+class AThirdPersonCharacter;
+class UInventory;
+
 UCLASS()
 class INVENTORYSYSTEM_API ATPCController : public APlayerController
 {
@@ -17,5 +21,20 @@ class INVENTORYSYSTEM_API ATPCController : public APlayerController
 public:
 
 	ATPCController(const FObjectInitializer& objectInitializer);
+
+protected:
+
+	virtual void BeginPlay() override;
+
+private:
+
+	UPROPERTY()
+		AThirdPersonCharacter* m_pPlayer;
+
+	UPROPERTY()
+		UInventory* m_pInventory;
+
+	UPROPERTY(EditAnywhere, Category = "HUD")
+		TSubclassOf<UUserWidget> m_InventoryWidget;
 	
 };
