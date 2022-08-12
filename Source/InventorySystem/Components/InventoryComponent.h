@@ -7,6 +7,7 @@
 #include "InventoryComponent.generated.h"
 
 class UInventoryItem;
+class UInventorySlot;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class INVENTORYSYSTEM_API UInventoryComponent : public UActorComponent
@@ -34,7 +35,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		TArray<UInventoryItem*> GetItems() const;
-
 
 private:
 

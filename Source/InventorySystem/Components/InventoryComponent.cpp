@@ -5,6 +5,8 @@
 
 #include "../Items/InventoryItem.h"
 
+#include "../HUD/InventorySlot.h"
+
 UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -28,11 +30,11 @@ bool UInventoryComponent::AddItem(UInventoryItem* item, int amount)
 	{
 		for (size_t i = 0; i < m_Items.Num(); i++)
 		{
-			if (m_Items[i]->GetName().IsEmpty())
+			if (!m_Items[i])
 			{
-				
 				m_Items[i] = item;
 				m_Items[i]->SetOwningInventory(this);
+				GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, item->GetItemName().ToString());
 				return true;
 
 			}

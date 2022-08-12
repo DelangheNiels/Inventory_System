@@ -27,6 +27,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		class UButton* m_pButton;
 
+	UInventoryItem* GetItem() const;
+
 	void SetItem(UInventoryItem* item);
 
 private:

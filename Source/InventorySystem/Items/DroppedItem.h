@@ -33,7 +33,7 @@ public:
 
 	void SetItemData(UInventoryItem* itemData);
 
-	virtual void Interact() override;
+	virtual void Interact(AThirdPersonCharacter* player) override;
 
 	virtual FString GetText() const override;
 

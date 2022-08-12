@@ -16,6 +16,11 @@ bool UInventorySlot::Initialize()
 	return success;
 }
 
+UInventoryItem* UInventorySlot::GetItem() const
+{
+	return m_pItem;
+}
+
 void UInventorySlot::SetItem(UInventoryItem* item)
 {
 	if (item)

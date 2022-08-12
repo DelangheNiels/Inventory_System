@@ -13,6 +13,7 @@
 class UStaticMesh;
 class UTexture2D;
 class UInventoryComponent;
+class UInventorySlot;
 
 UCLASS(Abstract, Blueprintable, DefaultToInstanced, EditInlineNew)
 class INVENTORYSYSTEM_API UInventoryItem : public UObject
@@ -57,6 +58,9 @@ protected:
 	//inventory where this item is located
 	UPROPERTY()
 		UInventoryComponent* m_pOwningInventroy;
+
+	UPROPERTY()
+		UInventorySlot* m_pInventorySlot;
 
 private:
 

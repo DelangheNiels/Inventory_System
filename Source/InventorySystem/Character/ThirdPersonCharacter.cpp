@@ -120,6 +120,14 @@ void AThirdPersonCharacter::AddHealth(float health)
 	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("%f"), m_Health));
 }
 
+void AThirdPersonCharacter::AddItemToInventory(UInventoryItem* item, int amount)
+{
+	if (item && amount > 0)
+	{
+		m_pInventoryComponent->AddItem(item, amount);
+	}
+}
+
 void AThirdPersonCharacter::SetInventory(UInventory* inventory)
 {
 	m_pInventory = inventory;
@@ -190,6 +198,16 @@ void AThirdPersonCharacter::OpenCloseInventory()
 
 void AThirdPersonCharacter::Interact()
 {
+	const FVector start = GetMesh()->GetComponentLocation();
+	const FVector end = start + GetActorForwardVector() * m_LineTraceLength;
+
+	if (AActor* hitActor = SingleLineTrace(start, end).GetActor())
+	{
+		if (IInteractable* interactableInterface = Cast<IInteractable>(hitActor))
+		{
+			interactableInterface->Interact(this);
+		}
+	}
 }
 
 FHitResult AThirdPersonCharacter::SingleLineTrace(const FVector& startLocation, const FVector& endLocation)

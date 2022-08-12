@@ -11,6 +11,7 @@ class UCameraComponent;
 class UInventoryComponent;
 class UInventory;
 class ATPCController;
+class UInventoryItem;
 
 UCLASS()
 class INVENTORYSYSTEM_API AThirdPersonCharacter : public ACharacter
@@ -30,6 +31,8 @@ public:
 
 	float GetHealth() const;
 	void AddHealth(float health);
+
+	void AddItemToInventory(UInventoryItem* item, int amount = 1);
 
 	void SetInventory(UInventory* inventory);
 
