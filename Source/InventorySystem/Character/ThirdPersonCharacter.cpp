@@ -124,7 +124,12 @@ bool AThirdPersonCharacter::AddItemToInventory(UInventoryItem* item, int amount)
 {
 	if (item && amount > 0)
 	{
-		return m_pInventoryComponent->AddItem(item, amount);
+		
+		if (m_pInventoryComponent->AddItem(item, amount))
+		{
+			m_pInventory->UpdateInventory();
+			return true;
+		}
 	}
 
 	return false;
