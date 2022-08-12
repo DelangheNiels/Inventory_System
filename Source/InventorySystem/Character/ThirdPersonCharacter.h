@@ -32,7 +32,7 @@ public:
 	float GetHealth() const;
 	void AddHealth(float health);
 
-	void AddItemToInventory(UInventoryItem* item, int amount = 1);
+	bool AddItemToInventory(UInventoryItem* item, int amount = 1);
 
 	void SetInventory(UInventory* inventory);
 

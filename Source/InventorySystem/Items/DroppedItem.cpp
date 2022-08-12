@@ -46,11 +46,12 @@ void ADroppedItem::SetItemData(UInventoryItem* itemData)
 }
 
 void ADroppedItem::Interact(AThirdPersonCharacter* player)
-{
-	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, TEXT("adding to inventory"));
-	
-	player->AddItemToInventory(m_pItemData);
-	Destroy();
+{	
+	if (player->AddItemToInventory(m_pItemData))
+	{
+		Destroy();
+	}
+		
 }
 
 FString ADroppedItem::GetText() const

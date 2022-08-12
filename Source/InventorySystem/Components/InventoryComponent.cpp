@@ -34,7 +34,6 @@ bool UInventoryComponent::AddItem(UInventoryItem* item, int amount)
 			{
 				m_Items[i] = item;
 				m_Items[i]->SetOwningInventory(this);
-				GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, item->GetItemName().ToString());
 				return true;
 
 			}

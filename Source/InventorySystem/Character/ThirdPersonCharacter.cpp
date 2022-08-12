@@ -120,12 +120,14 @@ void AThirdPersonCharacter::AddHealth(float health)
 	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("%f"), m_Health));
 }
 
-void AThirdPersonCharacter::AddItemToInventory(UInventoryItem* item, int amount)
+bool AThirdPersonCharacter::AddItemToInventory(UInventoryItem* item, int amount)
 {
 	if (item && amount > 0)
 	{
-		m_pInventoryComponent->AddItem(item, amount);
+		return m_pInventoryComponent->AddItem(item, amount);
 	}
+
+	return false;
 }
 
 void AThirdPersonCharacter::SetInventory(UInventory* inventory)

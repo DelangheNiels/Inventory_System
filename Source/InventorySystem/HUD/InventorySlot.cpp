@@ -25,9 +25,7 @@ void UInventorySlot::SetItem(UInventoryItem* item)
 {
 	if (item)
 	{
-		//m_pItemImage->SetOpacity(1);
 		m_pItemName->SetText(item->GetItemName());
-		//m_pItemImage->SetBrushFromTexture(item->GetImage());
 		m_pButton->SetToolTipText(item->GetDescription());
 		m_pButton->WidgetStyle.Normal.SetResourceObject(item->GetImage());
 	}
