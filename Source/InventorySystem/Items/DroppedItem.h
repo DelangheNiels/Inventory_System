@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
+#include "../Interfaces/Interactable.h"
+#include "../Interfaces/ShowText.h"
+
 #include "DroppedItem.generated.h"
 
 class UStaticMeshComponent;
@@ -11,7 +15,7 @@ class UInventoryItem;
 class USphereComponent;
 
 UCLASS()
-class INVENTORYSYSTEM_API ADroppedItem : public AActor
+class INVENTORYSYSTEM_API ADroppedItem : public AActor, public IInteractable, public IShowText
 {
 	GENERATED_BODY()
 	
@@ -29,22 +33,22 @@ public:
 
 	void SetItemData(UInventoryItem* itemData);
 
+	virtual void Interact() override;
+
+	virtual FString GetText() const override;
+
 
 private:
 
-	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* m_pMesh;
 
 	UPROPERTY(EditAnywhere)
 		UInventoryItem* m_pItemData;
 
-	UPROPERTY()
-		USphereComponent* m_pSphereCollision;
-
+	UPROPERTY(EditAnywhere)
+		FString m_InteractionText;
 
 	void SetMesh();
 
-	UFUNCTION()
-		void OnOverlapBegin(UPrimitiveComponent* overlappedComponent, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult);
 
 };

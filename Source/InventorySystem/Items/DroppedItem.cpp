@@ -14,14 +14,10 @@ ADroppedItem::ADroppedItem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	m_pSphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collision"));
-	m_pSphereCollision->SetCollisionProfileName("Trigger");
-	m_pSphereCollision->AttachToComponent(m_pMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	m_pSphereCollision->SetVisibility(true);
-	m_pSphereCollision->SetHiddenInGame(false);
-
 	m_pMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	m_pMesh->SetupAttachment(RootComponent);
+
+	
 
 	
 }
@@ -30,12 +26,6 @@ ADroppedItem::ADroppedItem()
 void ADroppedItem::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (m_pSphereCollision)
-	{
-		m_pSphereCollision->OnComponentBeginOverlap.AddDynamic(this, &ADroppedItem::OnOverlapBegin);
-		m_pSphereCollision->SetRelativeScale3D(FVector(1, 1, 1));
-	}
 		
 	SetMesh();
 	
@@ -55,6 +45,15 @@ void ADroppedItem::SetItemData(UInventoryItem* itemData)
 	SetMesh();
 }
 
+void ADroppedItem::Interact()
+{
+}
+
+FString ADroppedItem::GetText() const
+{
+	return m_InteractionText;
+}
+
 void ADroppedItem::SetMesh()
 {
 	if (m_pItemData)
@@ -65,11 +64,4 @@ void ADroppedItem::SetMesh()
 	}
 }
 
-void ADroppedItem::OnOverlapBegin(UPrimitiveComponent* overlappedComponent, AActor* otherActor, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& sweepResult)
-{
-	if (otherActor->IsA<AThirdPersonCharacter>())
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, TEXT("test"));
-	}
-}
 

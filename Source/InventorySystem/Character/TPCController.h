@@ -12,6 +12,7 @@
 
 class AThirdPersonCharacter;
 class UInventory;
+class UInteractionText;
 
 UCLASS()
 class INVENTORYSYSTEM_API ATPCController : public APlayerController
@@ -21,6 +22,8 @@ class INVENTORYSYSTEM_API ATPCController : public APlayerController
 public:
 
 	ATPCController(const FObjectInitializer& objectInitializer);
+
+	UInteractionText* GetInteractionTextWidget() const;
 
 protected:
 
@@ -34,7 +37,13 @@ private:
 	UPROPERTY()
 		UInventory* m_pInventory;
 
+	UPROPERTY()
+		UInteractionText* m_pInteractionText;
+
 	UPROPERTY(EditAnywhere, Category = "HUD")
 		TSubclassOf<UUserWidget> m_InventoryWidget;
+
+	UPROPERTY(EditAnywhere, Category = "HUD")
+		TSubclassOf<UUserWidget> m_InteractionTextWidget;
 	
 };

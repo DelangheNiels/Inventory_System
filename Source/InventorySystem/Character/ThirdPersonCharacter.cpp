@@ -11,10 +11,14 @@
 #include "../Components/InventoryComponent.h"
 
 #include "../HUD/Inventory.h"
+#include "../HUD/InteractionText.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
+
+#include "../Interfaces/Interactable.h"
+#include "../Interfaces/ShowText.h"
 
 AThirdPersonCharacter::AThirdPersonCharacter()
 {
@@ -42,6 +46,8 @@ AThirdPersonCharacter::AThirdPersonCharacter()
 	m_pInventoryComponent->SetCapacity(20);
 
 	m_Health = 100;
+
+	m_LineTraceLength = 200;
 }
 
 // Called when the game starts or when spawned
@@ -63,6 +69,22 @@ void AThirdPersonCharacter::BeginPlay()
 void AThirdPersonCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	const FVector start = GetMesh()->GetComponentLocation();
+	const FVector end = start + GetActorForwardVector() * m_LineTraceLength;
+
+	if (AActor* hitActor = SingleLineTrace(start, end).GetActor())
+	{
+		if (IShowText* showTextInterface = Cast<IShowText>(hitActor))
+		{
+			m_pController->GetInteractionTextWidget()->SetText(showTextInterface->GetText());
+		}
+	}
+
+	else
+	{
+		m_pController->GetInteractionTextWidget()->SetText("");
+	}
 }
 
 // Called to bind functionality to input
@@ -71,6 +93,8 @@ void AThirdPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAction("OpenCloseInventory", EInputEvent::IE_Pressed, this, &AThirdPersonCharacter::OpenCloseInventory);
+
+	PlayerInputComponent->BindAction("Interact", EInputEvent::IE_Pressed, this, &AThirdPersonCharacter::Interact);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AThirdPersonCharacter::MoveForwardBackward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AThirdPersonCharacter::MoveLeftRight);
@@ -162,5 +186,21 @@ void AThirdPersonCharacter::OpenCloseInventory()
 			
 		}
 	}
+}
+
+void AThirdPersonCharacter::Interact()
+{
+}
+
+FHitResult AThirdPersonCharacter::SingleLineTrace(const FVector& startLocation, const FVector& endLocation)
+{
+	FHitResult hitResult;
+
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+
+	GetWorld()->LineTraceSingleByChannel(hitResult, startLocation, endLocation, ECollisionChannel::ECC_WorldStatic, params);
+
+	return hitResult;
 }
 

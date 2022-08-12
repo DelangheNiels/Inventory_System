@@ -74,4 +74,10 @@ private:
 
 	void OpenCloseInventory();
 
+	void Interact();
+
+	FHitResult SingleLineTrace(const FVector& startLocation, const FVector& endLocation);
+
+	float m_LineTraceLength;
+
 };
