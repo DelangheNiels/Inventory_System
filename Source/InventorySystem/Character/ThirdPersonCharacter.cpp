@@ -140,6 +140,7 @@ void AThirdPersonCharacter::SetInventory(UInventory* inventory)
 	m_pInventory = inventory;
 	m_pInventory->SetInventoryComp(m_pInventoryComponent);
 	m_pInventory->SetVisibility(ESlateVisibility::Hidden);
+	m_pInventoryComponent->SetInventoryWidget(inventory);
 }
 
 void AThirdPersonCharacter::MoveForwardBackward(float value)

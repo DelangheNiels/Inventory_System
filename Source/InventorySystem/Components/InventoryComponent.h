@@ -8,6 +8,7 @@
 
 class UInventoryItem;
 class UInventorySlot;
+class UInventory;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class INVENTORYSYSTEM_API UInventoryComponent : public UActorComponent
@@ -33,6 +34,9 @@ public:
 
 	void SetCapacity(int capacity);
 
+	UInventory* GetInventoryWidget() const;
+	void SetInventoryWidget(UInventory* inventoryWidget);
+
 	UFUNCTION(BlueprintCallable)
 		TArray<UInventoryItem*> GetItems() const;
 
@@ -40,6 +44,9 @@ private:
 
 	UPROPERTY()
 		TArray<UInventoryItem*> m_Items;
+
+	UPROPERTY()
+		UInventory* m_pInventoryWidget;
 
 	int m_Capacity;
 

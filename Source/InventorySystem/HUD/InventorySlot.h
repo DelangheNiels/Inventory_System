@@ -27,7 +27,11 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 		class UButton* m_pButton;
 
-	UInventoryItem* GetItem() const;
+	UFUNCTION(BlueprintCallable)
+		UInventoryItem* GetItem() const;
+
+	UFUNCTION(BlueprintCallable)
+		void RemoveInventoryItem();
 
 	void SetItem(UInventoryItem* item);
 

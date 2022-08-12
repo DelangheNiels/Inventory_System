@@ -59,9 +59,6 @@ protected:
 	UPROPERTY()
 		UInventoryComponent* m_pOwningInventroy;
 
-	UPROPERTY()
-		UInventorySlot* m_pInventorySlot;
-
 private:
 
 	

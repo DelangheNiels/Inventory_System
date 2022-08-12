@@ -48,7 +48,10 @@ bool UInventoryComponent::RemoveItem(UInventoryItem* item)
 	if (m_Items.Contains(item))
 	{
 		item->SetOwningInventory(nullptr);
-		m_Items.Remove(item);
+
+		int index = m_Items.Find(item);
+		m_Items[index] = nullptr;
+
 		return true;
 	}
 	return false;
@@ -63,6 +66,16 @@ void UInventoryComponent::SetCapacity(int capacity)
 {
 	m_Capacity = capacity;
 	m_Items.SetNum(m_Capacity);
+}
+
+UInventory* UInventoryComponent::GetInventoryWidget() const
+{
+	return m_pInventoryWidget;
+}
+
+void UInventoryComponent::SetInventoryWidget(UInventory* inventoryWidget)
+{
+	m_pInventoryWidget = inventoryWidget;
 }
 
 TArray<UInventoryItem*> UInventoryComponent::GetItems() const

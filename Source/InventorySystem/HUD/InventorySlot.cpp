@@ -5,6 +5,10 @@
 
 #include "../Items/InventoryItem.h"
 
+#include "../Components/InventoryComponent.h"
+
+#include "../HUD/Inventory.h"
+
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
@@ -21,8 +25,18 @@ UInventoryItem* UInventorySlot::GetItem() const
 	return m_pItem;
 }
 
+void UInventorySlot::RemoveInventoryItem()
+{
+	auto inventoryWidget = m_pItem->GetOwningInventory()->GetInventoryWidget();
+	m_pItem->GetOwningInventory()->RemoveItem(m_pItem);
+	m_pItem = nullptr;
+	inventoryWidget->UpdateInventory();
+}
+
 void UInventorySlot::SetItem(UInventoryItem* item)
 {
+	m_pItem = item;
+
 	if (item)
 	{
 		m_pItemName->SetText(item->GetItemName());
