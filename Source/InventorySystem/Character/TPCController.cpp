@@ -13,6 +13,11 @@ ATPCController::ATPCController(const FObjectInitializer& objectInitializer)
 {
 }
 
+TSubclassOf<UUserWidget> ATPCController::GetInventoryWidget() const
+{
+	return m_InventoryWidget;
+}
+
 UInteractionText* ATPCController::GetInteractionTextWidget() const
 {
 	return m_pInteractionText;
@@ -24,14 +29,6 @@ void ATPCController::BeginPlay()
 
 	if (m_pPlayer)
 	{
-		m_pInventory = CreateWidget<UInventory, APlayerController>(this, m_InventoryWidget);
-
-		if (m_pInventory)
-		{
-			m_pPlayer->SetInventory(m_pInventory);
-			m_pInventory->AddToViewport();
-		}
-
 		m_pInteractionText = CreateWidget<UInteractionText, APlayerController>(this, m_InteractionTextWidget);
 
 		if (m_pInteractionText)

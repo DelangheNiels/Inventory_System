@@ -23,6 +23,8 @@ public:
 
 	ATPCController(const FObjectInitializer& objectInitializer);
 
+	TSubclassOf<UUserWidget> GetInventoryWidget() const;
+
 	UInteractionText* GetInteractionTextWidget() const;
 
 protected:
@@ -34,8 +36,8 @@ private:
 	UPROPERTY()
 		AThirdPersonCharacter* m_pPlayer;
 
-	UPROPERTY()
-		UInventory* m_pInventory;
+	/*UPROPERTY()
+		UInventory* m_pInventory;*/
 
 	UPROPERTY()
 		UInteractionText* m_pInteractionText;

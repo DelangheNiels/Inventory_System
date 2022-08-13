@@ -125,22 +125,29 @@ bool AThirdPersonCharacter::AddItemToInventory(UInventoryItem* item, int amount)
 	if (item && amount > 0)
 	{
 		
-		if (m_pInventoryComponent->AddItem(item, amount))
+		/*if (m_pInventoryComponent->AddItem(item, amount))
 		{
 			m_pInventory->UpdateInventory();
 			return true;
-		}
+		}*/
+
+		return m_pInventoryComponent->AddItem(item);
 	}
 
 	return false;
 }
 
-void AThirdPersonCharacter::SetInventory(UInventory* inventory)
+//void AThirdPersonCharacter::SetInventory(UInventory* inventory)
+//{
+//	m_pInventory = inventory;
+//	m_pInventory->SetInventoryComp(m_pInventoryComponent);
+//	m_pInventory->SetVisibility(ESlateVisibility::Hidden);
+//	m_pInventoryComponent->SetInventoryWidget(inventory);
+//}
+
+ATPCController* AThirdPersonCharacter::GetPlayerController() const
 {
-	m_pInventory = inventory;
-	m_pInventory->SetInventoryComp(m_pInventoryComponent);
-	m_pInventory->SetVisibility(ESlateVisibility::Hidden);
-	m_pInventoryComponent->SetInventoryWidget(inventory);
+	return m_pController;
 }
 
 void AThirdPersonCharacter::MoveForwardBackward(float value)
@@ -184,9 +191,9 @@ void AThirdPersonCharacter::LookUpUsingControllerAtRate(float rate)
 
 void AThirdPersonCharacter::OpenCloseInventory()
 {
-	if (m_pInventory)
+	if (m_pInventoryComponent)
 	{
-		if (m_pInventory->GetVisibility() == ESlateVisibility::Visible)
+		/*if (m_pInventory->GetVisibility() == ESlateVisibility::Visible)
 		{
 			m_pInventory->SetVisibility(ESlateVisibility::Hidden);
 			m_pController->SetInputMode(FInputModeGameOnly());
@@ -200,7 +207,8 @@ void AThirdPersonCharacter::OpenCloseInventory()
 			m_pController->bShowMouseCursor = true;
 			m_pController->SetInputMode(FInputModeGameAndUI());
 			
-		}
+		}*/
+		m_pInventoryComponent->OpenCloseInventory(m_pController);
 	}
 }
 

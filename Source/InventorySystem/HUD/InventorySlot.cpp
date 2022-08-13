@@ -30,7 +30,6 @@ void UInventorySlot::RemoveInventoryItem()
 	auto inventoryWidget = m_pItem->GetOwningInventory()->GetInventoryWidget();
 	m_pItem->GetOwningInventory()->RemoveItem(m_pItem);
 	m_pItem = nullptr;
-	inventoryWidget->UpdateInventory();
 }
 
 void UInventorySlot::SetItem(UInventoryItem* item)

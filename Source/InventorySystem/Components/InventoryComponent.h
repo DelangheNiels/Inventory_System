@@ -35,7 +35,8 @@ public:
 	void SetCapacity(int capacity);
 
 	UInventory* GetInventoryWidget() const;
-	void SetInventoryWidget(UInventory* inventoryWidget);
+
+	void OpenCloseInventory(APlayerController* controller);
 
 	UFUNCTION(BlueprintCallable)
 		TArray<UInventoryItem*> GetItems() const;
@@ -46,7 +47,10 @@ private:
 		TArray<UInventoryItem*> m_Items;
 
 	UPROPERTY()
-		UInventory* m_pInventoryWidget;
+		UInventory* m_pInventory;
+
+	UPROPERTY(EditAnywhere, Category = "HUD")
+		TSubclassOf<UUserWidget> m_InventoryWidget;
 
 	int m_Capacity;
 

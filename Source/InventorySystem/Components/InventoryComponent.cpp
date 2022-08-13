@@ -6,6 +6,12 @@
 #include "../Items/InventoryItem.h"
 
 #include "../HUD/InventorySlot.h"
+#include "../HUD/Inventory.h"
+
+#include "Components/WidgetComponent.h"
+
+#include "../Character/ThirdPersonCharacter.h"
+#include "../Character/TPCController.h"
 
 UInventoryComponent::UInventoryComponent()
 {
@@ -21,6 +27,21 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	auto controller = Cast<ATPCController>(GetWorld()->GetFirstPlayerController());
+	auto player = Cast<AThirdPersonCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	if (player)
+	{
+		m_pInventory = CreateWidget<UInventory, APlayerController>(controller, controller->GetInventoryWidget());
+
+		if (m_pInventory)
+		{
+			m_pInventory->SetInventoryComp(this);
+			m_pInventory->AddToViewport();
+			m_pInventory->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
 	
 }
 
@@ -34,6 +55,7 @@ bool UInventoryComponent::AddItem(UInventoryItem* item, int amount)
 			{
 				m_Items[i] = item;
 				m_Items[i]->SetOwningInventory(this);
+				m_pInventory->UpdateInventory();
 				return true;
 
 			}
@@ -51,7 +73,7 @@ bool UInventoryComponent::RemoveItem(UInventoryItem* item)
 
 		int index = m_Items.Find(item);
 		m_Items[index] = nullptr;
-
+		m_pInventory->UpdateInventory();
 		return true;
 	}
 	return false;
@@ -70,12 +92,26 @@ void UInventoryComponent::SetCapacity(int capacity)
 
 UInventory* UInventoryComponent::GetInventoryWidget() const
 {
-	return m_pInventoryWidget;
+	return m_pInventory;
 }
 
-void UInventoryComponent::SetInventoryWidget(UInventory* inventoryWidget)
+void UInventoryComponent::OpenCloseInventory(APlayerController* controller)
 {
-	m_pInventoryWidget = inventoryWidget;
+	if (m_pInventory->GetVisibility() == ESlateVisibility::Visible)
+	{
+		m_pInventory->SetVisibility(ESlateVisibility::Hidden);
+		controller->SetInputMode(FInputModeGameOnly());
+		controller->bShowMouseCursor = false;
+	}
+
+	else
+	{
+		m_pInventory->SetVisibility(ESlateVisibility::Visible);
+		m_pInventory->UpdateInventory();
+		controller->bShowMouseCursor = true;
+		controller->SetInputMode(FInputModeGameAndUI());
+
+	}
 }
 
 TArray<UInventoryItem*> UInventoryComponent::GetItems() const

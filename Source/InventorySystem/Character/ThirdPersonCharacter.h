@@ -9,7 +9,6 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UInventoryComponent;
-class UInventory;
 class ATPCController;
 class UInventoryItem;
 
@@ -34,7 +33,7 @@ public:
 
 	bool AddItemToInventory(UInventoryItem* item, int amount = 1);
 
-	void SetInventory(UInventory* inventory);
+	ATPCController* GetPlayerController() const;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Camera")
@@ -60,9 +59,6 @@ private:
 
 	UPROPERTY()
 		UInventoryComponent* m_pInventoryComponent;
-
-	UPROPERTY()
-		UInventory* m_pInventory;
 
 	UPROPERTY()
 		ATPCController* m_pController;
