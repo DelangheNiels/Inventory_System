@@ -4,46 +4,41 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "InventorySlot.generated.h"
+#include "ItemOptionButtons.generated.h"
 
 /**
  * 
  */
 
 class UInventoryItem;
-class ADroppedActor;
-class UInventory;
 
 UCLASS()
-class INVENTORYSYSTEM_API UInventorySlot : public UUserWidget
+class INVENTORYSYSTEM_API UItemOptionButtons : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
+public :
 
 	virtual bool Initialize() override;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-		class UTextBlock* m_pItemName;
+		class UButton* m_pDropButton;
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-		class UButton* m_pButton;
+		UButton* m_pUseButton;
 
 	UFUNCTION(BlueprintCallable)
 		UInventoryItem* GetItem() const;
 
 	UFUNCTION(BlueprintCallable)
-		void RemoveInventoryItem();
+		void SetItem(UInventoryItem* item);
 
 	UFUNCTION(BlueprintCallable)
-		UInventory* GetInventoryWidget() const;
-
-	void SetItem(UInventoryItem* item);
+		void UseItem();
 
 private:
 
 	UPROPERTY()
 		UInventoryItem* m_pItem;
-
-	float m_ItemDropDistance;
+	
 };

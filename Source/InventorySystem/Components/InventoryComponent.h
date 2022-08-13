@@ -34,6 +34,7 @@ public:
 
 	void SetCapacity(int capacity);
 
+	UFUNCTION(BlueprintCallable)
 	UInventory* GetInventoryWidget() const;
 
 	void OpenCloseInventory(APlayerController* controller);

@@ -11,7 +11,7 @@
 bool UInventory::Initialize()
 {
 	bool success = Super::Initialize();
-
+	UpdateInventory();
 	return success;
 }
 
@@ -31,8 +31,24 @@ void UInventory::UpdateInventory()
 		{
 			auto slot = CreateWidget<UInventorySlot, APlayerController>(GetOwningPlayer(), m_SlotWidget);
 			slot->SetItem(m_pInventoryComp->GetItems()[i]);
-			
+
 			m_pWrapBox->AddChild(slot);
 		}
 	}
 }
+
+UItemOptionButtons* UInventory::GetActiveOptionWindow() const
+{
+	return m_pOptionWindow;
+}
+
+void UInventory::SetActiveOptionWindow(UItemOptionButtons* window)
+{
+	m_pOptionWindow = window;
+}
+
+void UInventory::ClearActiveOptionWindow()
+{
+	m_pOptionWindow = nullptr;
+}
+

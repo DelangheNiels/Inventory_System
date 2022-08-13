@@ -42,6 +42,11 @@ void UInventorySlot::RemoveInventoryItem()
 	m_pItem = nullptr;
 }
 
+UInventory* UInventorySlot::GetInventoryWidget() const
+{
+	return m_pItem->GetOwningInventory()->GetInventoryWidget();
+}
+
 void UInventorySlot::SetItem(UInventoryItem* item)
 {
 	m_pItem = item;

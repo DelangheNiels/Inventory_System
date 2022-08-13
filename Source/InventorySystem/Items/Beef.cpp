@@ -11,4 +11,5 @@ UBeef::UBeef()
 void UBeef::Use(AThirdPersonCharacter* player)
 {
 	player->AddHealth(m_HealthToHeal);
+	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, TEXT("healing player"));
 }

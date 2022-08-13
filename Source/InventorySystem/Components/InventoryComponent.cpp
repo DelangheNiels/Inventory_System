@@ -7,6 +7,7 @@
 
 #include "../HUD/InventorySlot.h"
 #include "../HUD/Inventory.h"
+#include "../HUD/ItemOptionButtons.h"
 
 #include "Components/WidgetComponent.h"
 
@@ -102,6 +103,12 @@ void UInventoryComponent::OpenCloseInventory(APlayerController* controller)
 		m_pInventory->SetVisibility(ESlateVisibility::Hidden);
 		controller->SetInputMode(FInputModeGameOnly());
 		controller->bShowMouseCursor = false;
+
+		if (m_pInventory->GetActiveOptionWindow())
+		{
+			m_pInventory->GetActiveOptionWindow()->RemoveFromParent();
+			m_pInventory->ClearActiveOptionWindow();
+		}
 	}
 
 	else
