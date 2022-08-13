@@ -4,6 +4,7 @@
 #include "InventorySlot.h"
 
 #include "../Items/InventoryItem.h"
+#include "../Items/DroppedItem.h"
 
 #include "../Components/InventoryComponent.h"
 
@@ -17,6 +18,8 @@ bool UInventorySlot::Initialize()
 {
 	bool success = Super::Initialize();
 
+	m_ItemDropDistance = 70.0f;
+
 	return success;
 }
 
@@ -27,6 +30,13 @@ UInventoryItem* UInventorySlot::GetItem() const
 
 void UInventorySlot::RemoveInventoryItem()
 {
+	//Drop item
+	auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto droppedItem = GetWorld()->SpawnActor<ADroppedItem>(player->GetActorLocation() + player->GetActorForwardVector() * m_ItemDropDistance, player->GetActorRotation());
+	droppedItem->SetItemData(m_pItem);
+	droppedItem->SetText("Press E to pick up");
+
+	//Remove item from inventory
 	auto inventoryWidget = m_pItem->GetOwningInventory()->GetInventoryWidget();
 	m_pItem->GetOwningInventory()->RemoveItem(m_pItem);
 	m_pItem = nullptr;

@@ -69,4 +69,9 @@ void ADroppedItem::SetMesh()
 	}
 }
 
+void ADroppedItem::SetText(FString text)
+{
+	m_InteractionText = text;
+}
+
 

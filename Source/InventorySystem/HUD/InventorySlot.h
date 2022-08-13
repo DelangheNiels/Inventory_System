@@ -11,6 +11,7 @@
  */
 
 class UInventoryItem;
+class ADroppedActor;
 
 UCLASS()
 class INVENTORYSYSTEM_API UInventorySlot : public UUserWidget
@@ -40,5 +41,5 @@ private:
 	UPROPERTY()
 		UInventoryItem* m_pItem;
 
-	
+	float m_ItemDropDistance;
 };

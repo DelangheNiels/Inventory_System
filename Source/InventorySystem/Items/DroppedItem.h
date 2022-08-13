@@ -37,6 +37,8 @@ public:
 
 	virtual FString GetText() const override;
 
+	void SetText(FString text);
+
 
 private:
 
