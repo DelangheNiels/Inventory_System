@@ -33,7 +33,10 @@ public:
 		UInventoryItem* GetItem() const;
 
 	UFUNCTION(BlueprintCallable)
-		void RemoveInventoryItem();
+		void DropInventoryItem();
+
+	UFUNCTION(BlueprintCallable)
+		void UseInventoryItem();
 
 	UFUNCTION(BlueprintCallable)
 		UInventory* GetInventoryWidget() const;

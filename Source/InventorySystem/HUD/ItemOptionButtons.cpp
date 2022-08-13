@@ -10,6 +10,8 @@
 
 #include "../Items/InventoryItem.h"
 
+#include "Components/Button.h"
+
 bool UItemOptionButtons::Initialize()
 {
 	return Super::Initialize();
@@ -23,6 +25,11 @@ UInventoryItem* UItemOptionButtons::GetItem() const
 void UItemOptionButtons::SetItem(UInventoryItem* item)
 {
 	m_pItem = item;
+
+	if (!m_pItem->GetClass()->ImplementsInterface(UUsable::StaticClass()))
+	{
+		m_pUseButton->SetIsEnabled(false);
+	}
 }
 
 UInventorySlot* UItemOptionButtons::GetSlot() const
@@ -37,8 +44,8 @@ void UItemOptionButtons::SetSlot(UInventorySlot* invSlot)
 
 void UItemOptionButtons::UseItem()
 {
-	if (m_pItem->GetClass()->ImplementsInterface(UUsable::StaticClass()))
+	if (m_pItem->GetClass()->ImplementsInterface(UUsable::StaticClass()) && m_pSlot)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, TEXT("has interface"));
+		m_pSlot->UseInventoryItem();
 	}
 }

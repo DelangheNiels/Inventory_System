@@ -10,6 +10,8 @@
 
 #include "../HUD/Inventory.h"
 
+#include "../Interfaces/Usable.h"
+
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
@@ -28,7 +30,7 @@ UInventoryItem* UInventorySlot::GetItem() const
 	return m_pItem;
 }
 
-void UInventorySlot::RemoveInventoryItem()
+void UInventorySlot::DropInventoryItem()
 {
 	//Drop item
 	auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -40,6 +42,21 @@ void UInventorySlot::RemoveInventoryItem()
 	auto inventoryWidget = m_pItem->GetOwningInventory()->GetInventoryWidget();
 	m_pItem->GetOwningInventory()->RemoveItem(m_pItem);
 	m_pItem = nullptr;
+}
+
+void UInventorySlot::UseInventoryItem()
+{
+	if (m_pItem->GetClass()->ImplementsInterface(UUsable::StaticClass()))
+	{
+		IUsable* usableInterface = Cast<IUsable>(m_pItem);
+		auto player = Cast<AThirdPersonCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+		usableInterface->Use(player);
+
+		auto inventoryWidget = m_pItem->GetOwningInventory()->GetInventoryWidget();
+		m_pItem->GetOwningInventory()->RemoveItem(m_pItem);
+		m_pItem = nullptr;
+	}
+
 }
 
 UInventory* UInventorySlot::GetInventoryWidget() const
