@@ -55,7 +55,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Item")
 		UTexture2D* m_pImage;
 
-	//inventory where this item is located
 	UPROPERTY()
 		UInventoryComponent* m_pOwningInventroy;
 

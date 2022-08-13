@@ -11,6 +11,7 @@
  */
 
 class UInventoryItem;
+class UInventorySlot;
 
 UCLASS()
 class INVENTORYSYSTEM_API UItemOptionButtons : public UUserWidget
@@ -34,11 +35,20 @@ public :
 		void SetItem(UInventoryItem* item);
 
 	UFUNCTION(BlueprintCallable)
+		UInventorySlot* GetSlot() const;
+
+	UFUNCTION(BlueprintCallable)
+		void SetSlot(UInventorySlot* invSlot);
+
+	UFUNCTION(BlueprintCallable)
 		void UseItem();
 
 private:
 
 	UPROPERTY()
 		UInventoryItem* m_pItem;
+
+	UPROPERTY()
+		UInventorySlot* m_pSlot;
 	
 };

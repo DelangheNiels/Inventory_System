@@ -2,6 +2,7 @@
 
 
 #include "ItemOptionButtons.h"
+#include "InventorySlot.h"
 
 #include "../Interfaces/Usable.h"
 
@@ -22,6 +23,16 @@ UInventoryItem* UItemOptionButtons::GetItem() const
 void UItemOptionButtons::SetItem(UInventoryItem* item)
 {
 	m_pItem = item;
+}
+
+UInventorySlot* UItemOptionButtons::GetSlot() const
+{
+	return m_pSlot;
+}
+
+void UItemOptionButtons::SetSlot(UInventorySlot* invSlot)
+{
+	m_pSlot = invSlot;
 }
 
 void UItemOptionButtons::UseItem()
